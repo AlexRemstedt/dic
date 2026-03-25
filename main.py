@@ -12,34 +12,13 @@ Notes:
     of 3 lines.
 """
 
+from plotters import plot_stress
+from src.strain import read_strain_data
+from src.stress import add_stress
 import pandas as pd
-from pathlib import Path
-from src.plotters.strain_plotter import plot_strain
-
-DATA_DIR = Path("./data/")
 
 
-def read_strain_data(*, strain_line_number: int) -> pd.DataFrame:
-    """Read the strain data from the csv file.
-
-    Parameters:
-        strain_line_number (int): The identifier of the strainline to read.
-
-    Returns:
-        DataFrame with columns: x, strain, uncertainty, line.
-    """
-    df = pd.read_csv(
-        DATA_DIR / f"Line{strain_line_number}_tangential_strain_y",
-        sep="\t",
-        skiprows=3,
-        header=None,
-        names=["x", "strain", "uncertainty"],
-    )
-    df["line"] = f"Line{strain_line_number}"
-    return df
-
-
-def strain() -> None:
+def main() -> None:
     df = pd.concat(
         [
             read_strain_data(strain_line_number=1),
@@ -47,8 +26,9 @@ def strain() -> None:
         ],
         ignore_index=True,
     )
-    plot_strain(df)
+    add_stress(df)
+    plot_stress(df)
 
 
 if __name__ == "__main__":
-    strain()
+    main()
