@@ -1,14 +1,17 @@
 import pandas as pd
-from plotnine import ggplot, aes, geom_line, ggsave
+import numpy as np
+from plotnine import ggplot, aes, geom_line, ggsave, geom_hline
 
 
 def plot_strain(df: pd.DataFrame):
     """Create a plot of the strain data using ggplot."""
-    p = ggplot(df, aes(x="x", y="strain", color="line")) + geom_line()
+    p = ggplot(df, aes(x="x", y="Strain/%", color="line")) + geom_line()
     ggsave(p, "strain.png")
 
 
 def plot_stress(df: pd.DataFrame):
     """Create a plot of the stress data using ggplot."""
-    p = ggplot(df, aes(x="x", y="stress", color="line")) + geom_line()
+    avg = np.mean(df["Stress/GPa"])
+    max = np.max(df["Stress/GPa"])
+    p = ggplot(df, aes(x="x", y="Stress/GPa")) + geom_line()
     ggsave(p, "stress.png")

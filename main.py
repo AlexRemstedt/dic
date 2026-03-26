@@ -16,18 +16,24 @@ from plotters import plot_stress
 from src.strain import read_strain_data
 from src.stress import add_stress
 import pandas as pd
+import numpy as np
 
 
 def main() -> None:
     df = pd.concat(
         [
             read_strain_data(strain_line_number=1),
-            read_strain_data(strain_line_number=2),
         ],
         ignore_index=True,
     )
     add_stress(df)
     plot_stress(df)
+    avg = np.mean(df["Stress/GPa"])
+    max = np.max(df["Stress/GPa"])
+    b_eff = 250 * avg / max
+    print(f"{avg=:.2f}")
+    print(f"{max=:.2f}")
+    print(f"{b_eff=:.2f}")
 
 
 if __name__ == "__main__":

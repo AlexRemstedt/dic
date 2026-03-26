@@ -32,8 +32,9 @@ def read_strain_data(*, strain_line_number: int) -> pd.DataFrame:
         sep="\t",
         skiprows=3,
         header=None,
-        names=["x", "strain", "uncertainty"],
+        names=["x", "Strain/%", "uncertainty"],
     )
+    df["Strain/%"] = df["Strain/%"] / 1000
     df["line"] = f"Line{strain_line_number}"
     return df
 
